@@ -7,3 +7,4 @@ function onRequest(request, response) {
 }
 
 http.createServer(onRequest).listen(80);
+console.log("Server Started")
