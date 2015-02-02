@@ -1,9 +1,12 @@
-var express = require('express')
+var express = require('express');
+var post = require('./routes/posts');
+
 var app = express()
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+
+// Blog Entry List
+app.get('/', post.findAll);
+app.get('/post/:id' post.findById);
 
 var server = app.listen(80, function () {
 
@@ -12,4 +15,4 @@ var server = app.listen(80, function () {
 
   console.log('Example app listening at http://%s:%s', host, port)
 
-})
+});
