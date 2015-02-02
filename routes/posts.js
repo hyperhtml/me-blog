@@ -1,6 +1,6 @@
 var mongo = require('mongodb');
 
-var Server = mongo.Server;
+var Server = mongo.MongoClient;
 var Db = mongo.db;
 var BSON = mongo.BSONPure;
 
@@ -33,7 +33,7 @@ exports.findAll = function(req, res){
             res.send(items);
         });
     });
-}
+};
 
 // List specific entry
 exports.findById = function(req, res){
@@ -44,7 +44,7 @@ exports.findById = function(req, res){
             res.send(item);
         });
     });
-}
+};
 
 
 // Initialization DB function
