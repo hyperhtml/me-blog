@@ -1,8 +1,8 @@
 var mongo = require('mongodb');
 
-var Server = mongo.MongoClient;
-var Db = mongo.Db;
-var BSON = mongo.pure().BSON;
+var Server = mongo.Server;
+var Db = mongo.db;
+var BSON = mongo.BSONPure;
 
 // Setup db connection
 var server = new Server('localhost', 27017, {auto_reconnect: true});
@@ -33,7 +33,7 @@ exports.findAll = function(req, res){
             res.send(items);
         });
     });
-};
+}
 
 // List specific entry
 exports.findById = function(req, res){
@@ -44,7 +44,7 @@ exports.findById = function(req, res){
             res.send(item);
         });
     });
-};
+}
 
 
 // Initialization DB function
