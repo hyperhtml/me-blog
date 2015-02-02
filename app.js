@@ -6,7 +6,7 @@ var app = express()
 
 // Blog Entry List
 app.get('/', post.findAll);
-app.get('/post/:id' post.findById);
+app.get('/post/:id', post.findById);
 
 var server = app.listen(80, function () {
 
