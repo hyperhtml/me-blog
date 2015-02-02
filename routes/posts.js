@@ -1,8 +1,8 @@
-var mongo = require('mongodb');
+var mongoClient = require('mongodb').MongoClient;
 
-var Server = mongo.Server;
-var Db = mongo.db;
-var BSON = mongo.BSONPure;
+var Server = mongoClient.Server;
+var Db = mongoClient.db
+var BSON = mongoClient.pure().BSON;
 
 // Setup db connection
 var server = new Server('localhost', 27017, {auto_reconnect: true});
