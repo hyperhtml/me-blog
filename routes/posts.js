@@ -3,7 +3,7 @@ var mongoClient = mongo.MongoClient;
 
 var Server = mongo.Server;
 var Db = mongo.Db
-var BSON = mongo.pure().BSON;
+var ObjectID = mongo.ObjectID;
 
 // Setup db connection
 var server = new Server('localhost', 27017, {auto_reconnect: true});
@@ -24,9 +24,6 @@ db.open(function(err, db){
     }
 });
 
-
-
-
 // List all blog entries
 exports.findAll = function(req, res){
     db.collection('posts', function(err, collection) {
@@ -41,7 +38,7 @@ exports.findById = function(req, res){
     var id = req.params.id;
     console.log('Retrieving post: ' + id);
     db.collection('posts', function(err, collection) {
-        collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
+        collection.findOne({'_id':new ObjectID(id)}, function(err, item) {
             res.send(item);
         });
     });
