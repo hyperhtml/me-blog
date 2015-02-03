@@ -1,5 +1,6 @@
 var express = require('express');
 var post = require('./routes/posts');
+var exphbs  = require('express-handlebars');
 
 var app = express()
 
