@@ -1,8 +1,12 @@
 var express = require('express');
 var post = require('./routes/posts');
+var exphbs  = require('express-handlebars');
 
 var app = express()
 
+// Setup Handlebars Templating
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // Blog Entry List
 app.get('/', post.findAll);

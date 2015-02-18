@@ -28,7 +28,7 @@ db.open(function(err, db){
 exports.findAll = function(req, res){
     db.collection('posts', function(err, collection) {
         collection.find().toArray(function(err, items) {
-            res.send(items);
+            res.render('posts',{"posts": items})
         });
     });
 }
@@ -39,7 +39,7 @@ exports.findById = function(req, res){
     console.log('Retrieving post: ' + id);
     db.collection('posts', function(err, collection) {
         collection.findOne({'_id':new ObjectID(id)}, function(err, item) {
-            res.send(item);
+            res.render('post',{"post": item})
         });
     });
 }
@@ -47,7 +47,7 @@ exports.findById = function(req, res){
 
 // Initialization DB function
 var populateDB = function() {
- 
+
     var postItems = [{
         title: "This is a test post",
         tags: ["test","first"],
@@ -67,9 +67,9 @@ var populateDB = function() {
         date: new Date("2015-02-02T01:51:54.918Z"),
         body: "This is the third post body.  Lorem Ipsum?"
     }];
- 
+
     db.collection('posts', function(err, collection) {
         collection.insert(postItems, {safe:true}, function(err, result) {});
     });
- 
+
 };
