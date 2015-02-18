@@ -15,8 +15,8 @@ db.open(function(err, db){
         console.log("Connected to 'blogdb' database");
         db.collection('posts', {strict:true}, function(err, collection) {
             if (err) {
-                console.log("The 'posts' collection doesn't exist. Creating it with sample data...");
-                populateDB();
+                console.log("The 'posts' collection doesn't exist.");
+                //populateDB();
             }
         });
     } else {
@@ -46,7 +46,7 @@ exports.findById = function(req, res){
 
 
 // Initialization DB function
-var populateDB = function() {
+/*var populateDB = function() {
 
     var postItems = [{
         title: "This is a test post",
@@ -72,4 +72,4 @@ var populateDB = function() {
         collection.insert(postItems, {safe:true}, function(err, result) {});
     });
 
-};
+};*/
