@@ -1,4 +1,4 @@
-var config = require('../config.js');
+var config = require('../config');
 var mongo = require('mongodb');
 var mongoClient = mongo.MongoClient;
 
@@ -32,6 +32,7 @@ exports.findAll = function(req, res){
             res.render('posts',{"posts": items})
         });
     });
+    console.log(req.user);
 }
 
 // List specific entry

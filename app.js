@@ -11,21 +11,16 @@ var passport = require('passport')
 passport.use(new GoogleStrategy({
         clientID:     config.GOOGLE_CLIENT_ID,
         clientSecret: config.GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://brycecarr.me/auth/google/return",
+        callbackURL: "http://brycecarr.me/auth/google/callback",
         passReqToCallback   : true
     },
     function(request, accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return done(err, user);
+        // asynchronous verification, for effect...
+        process.nextTick(function () {
+          return done(null, profile);
         });
-        console.log("authenticated: ", profile);
-
-        console.log("===============");
-        console.log(request, accessToken, refreshToken, profile, done);
     }
 ));
-
-console.log(config);
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -44,7 +39,7 @@ app.set('view engine', 'handlebars');
 
 // Blog Entry List
 app.get('/', post.findAll);
-app.get('/post/:id', post.findById);
+app.get('/post/:id', ensureAuthenticated, post.findById);
 
 app.get('/admin', ensureAuthenticated, function(req,res){
     res.render('admin', { user: req.user});
@@ -65,7 +60,7 @@ app.get( '/auth/google/callback',
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+  res.redirect('/auth/google');
 }
 
 
