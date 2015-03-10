@@ -1,4 +1,4 @@
-var localConfig = require('./localconfig');
+var localConfig = require('localconfig.js');
 
 var config = {};
 
