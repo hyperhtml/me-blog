@@ -1,3 +1,4 @@
+var config = require('../config');
 var mongo = require('mongodb');
 var mongoClient = mongo.MongoClient;
 
@@ -6,7 +7,7 @@ var Db = mongo.Db
 var ObjectID = mongo.ObjectID;
 
 // Setup db connection
-var server = new Server('localhost', 27017, {auto_reconnect: true});
+var server = new Server(config.DB_HOST, config.DB_PORT, {auto_reconnect: true});
 db = new Db('blogdb', server);
 
 // Open db connection

@@ -1,24 +1,42 @@
 var express = require('express');
 var post = require('./routes/posts');
 var exphbs  = require('express-handlebars');
+var config = require('./config');
 
 var app = express()
 
 var passport = require('passport')
-  , GoogleStrategy = require('passport-google').Strategy;
+  , GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 passport.use(new GoogleStrategy({
-    returnURL: 'http://brycecarr.me/auth/google/return',
-    realm: 'http://brycecarr.me/'
-  },
-  function(identifier, profile, done) {
-    User.findOrCreate({ openId: identifier }, function(err, user) {
-      done(err, user);
-      console.log('user', user)
-    });
-    console.log("Auth",identifier, profile, done);
-  }
+        clientID:     config.GOOGLE_CLIENT_ID,
+        clientSecret: config.GOOGLE_CLIENT_SECRET,
+        callbackURL: "http://brycecarr.me/auth/google/return",
+        passReqToCallback   : true
+    },
+    function(request, accessToken, refreshToken, profile, done) {
+        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            return done(err, user);
+        });
+        console.log("authenticated: ", profile);
+
+        console.log("===============");
+        console.log(request, accessToken, refreshToken, profile, done);
+    }
 ));
+
+console.log(config);
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+app.use( passport.initialize());
+app.use( passport.session());
 
 // Setup Handlebars Templating
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -28,14 +46,27 @@ app.set('view engine', 'handlebars');
 app.get('/', post.findAll);
 app.get('/post/:id', post.findById);
 
-/* Google Auth */
-app.get('/auth/google', passport.authenticate('google'));
+app.get('/admin', ensureAuthenticated, function(req,res){
+    res.render('admin', { user: req.user});
+});
 
-app.get('/auth/google/return',
-  passport.authenticate('google', {
-      successRedirect: '/',
-      failureRedirect: '/login'
-  }));
+/* Google Auth */
+app.get('/auth/google', passport.authenticate('google', { scope: [
+       'https://www.googleapis.com/auth/plus.login',
+       'https://www.googleapis.com/auth/plus.profile.emails.read']
+}));
+
+app.get( '/auth/google/callback',
+    	passport.authenticate( 'google', {
+    		successRedirect: '/',
+    		failureRedirect: '/login'
+}));
+
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
 
 
 var server = app.listen(80, function () {
