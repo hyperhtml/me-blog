@@ -39,7 +39,7 @@ app.set('view engine', 'handlebars');
 
 // Blog Entry List
 app.get('/', post.findAll);
-app.get('/post/:id', ensureAuthenticated, post.findById);
+app.get('/post/:id', post.findById);
 
 app.get('/admin', ensureAuthenticated, function(req,res){
     res.render('admin', { user: req.user});
