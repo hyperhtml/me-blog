@@ -1,0 +1,27 @@
+{
+  "name": "me-blog",
+  "version": "1.0.0",
+  "description": "Personal blog",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperhtml/me-blog.git"
+  },
+  "keywords": [
+    "blog",
+    "node"
+  ],
+  "author": "Bryce Carr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyperhtml/me-blog/issues"
+  },
+  "homepage": "https://github.com/hyperhtml/me-blog#readme"
+}
